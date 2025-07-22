@@ -1,4 +1,4 @@
-const content_dir = 'contents/';  // 修改为 content/ 目录
+const content_dir = 'contents/';  // 内容目录路径
 const config_file = 'config.yml';
 const section_names = [
     'home',
@@ -8,10 +8,10 @@ const section_names = [
     'mathematical-statistics',
     'real-analysis',
     'politics'
-]; // 更新为您的所有章节名称
+]; // 所有章节名称列表
 
 window.addEventListener('DOMContentLoaded', event => {
-    // Activate Bootstrap scrollspy
+    // 激活Bootstrap滚动监听
     const mainNav = document.body.querySelector('#mainNav');
     if (mainNav) {
         new bootstrap.ScrollSpy(document.body, {
@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 
-    // Collapse responsive navbar
+    // 折叠响应式导航栏
     const navbarToggler = document.body.querySelector('.navbar-toggler');
     const responsiveNavItems = [].slice.call(
         document.querySelectorAll('#navbarResponsive .nav-link')
@@ -33,7 +33,7 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     });
 
-    // 加载 YAML 配置
+    // 加载YAML配置
     fetch(content_dir + config_file)
         .then(response => {
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -52,7 +52,7 @@ window.addEventListener('DOMContentLoaded', event => {
         })
         .catch(error => console.error('YAML加载错误:', error));
 
-    // 配置 marked.js
+    // 配置marked.js
     marked.setOptions({
         mangle: false,
         headerIds: false,
