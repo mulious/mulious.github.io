@@ -1,27 +1,31 @@
-
-
-const content_dir = 'contents/'
-const config_file = 'config.yml'
-const section_names = ['home', 'publications', 'awards']
-
+const content_dir = 'contents/';  // 修改为 content/ 目录
+const config_file = 'config.yml';
+const section_names = [
+    'home',
+    'differential-equations',
+    'linear-algebra',
+    'stochastic-processes',
+    'mathematical-statistics',
+    'real-analysis',
+    'politics'
+]; // 更新为您的所有章节名称
 
 window.addEventListener('DOMContentLoaded', event => {
-
-    // Activate Bootstrap scrollspy on the main nav element
+    // Activate Bootstrap scrollspy
     const mainNav = document.body.querySelector('#mainNav');
     if (mainNav) {
         new bootstrap.ScrollSpy(document.body, {
             target: '#mainNav',
             offset: 74,
         });
-    };
+    }
 
-    // Collapse responsive navbar when toggler is visible
+    // Collapse responsive navbar
     const navbarToggler = document.body.querySelector('.navbar-toggler');
     const responsiveNavItems = [].slice.call(
         document.querySelectorAll('#navbarResponsive .nav-link')
     );
-    responsiveNavItems.map(function (responsiveNavItem) {
+    responsiveNavItems.forEach(responsiveNavItem => {
         responsiveNavItem.addEventListener('click', () => {
             if (window.getComputedStyle(navbarToggler).display !== 'none') {
                 navbarToggler.click();
@@ -29,37 +33,66 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     });
 
-
-    // Yaml
+    // 加载 YAML 配置
     fetch(content_dir + config_file)
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            return response.text();
+        })
         .then(text => {
             const yml = jsyaml.load(text);
             Object.keys(yml).forEach(key => {
-                try {
-                    document.getElementById(key).innerHTML = yml[key];
-                } catch {
-                    console.log("Unknown id and value: " + key + "," + yml[key].toString())
+                const element = document.getElementById(key);
+                if (element) {
+                    element.innerHTML = yml[key];
+                } else {
+                    console.warn(`Element with ID '${key}' not found`);
                 }
-
             })
         })
-        .catch(error => console.log(error));
+        .catch(error => console.error('YAML加载错误:', error));
 
+    // 配置 marked.js
+    marked.setOptions({
+        mangle: false,
+        headerIds: false,
+        breaks: true,  // 自动换行
+        gfm: true      // GitHub风格的Markdown
+    });
 
-    // Marked
-    marked.use({ mangle: false, headerIds: false })
-    section_names.forEach((name, idx) => {
-        fetch(content_dir + name + '.md')
-            .then(response => response.text())
-            .then(markdown => {
-                const html = marked.parse(markdown);
-                document.getElementById(name + '-md').innerHTML = html;
-            }).then(() => {
-                // MathJax
-                MathJax.typeset();
+    // 加载所有Markdown内容
+    const loadPromises = section_names.map(name => {
+        return fetch(`${content_dir}${name}.md`)
+            .then(response => {
+                if (!response.ok) throw new Error(`Failed to load ${name}.md: ${response.status}`);
+                return response.text();
             })
-            .catch(error => console.log(error));
-    })
+            .then(markdown => {
+                const targetElement = document.getElementById(`${name}-md`);
+                if (targetElement) {
+                    targetElement.innerHTML = marked.parse(markdown);
+                } else {
+                    console.warn(`Target element for ${name} not found`);
+                }
+            })
+            .catch(error => {
+                console.error(`加载 ${name}.md 失败:`, error);
+                const targetElement = document.getElementById(`${name}-md`);
+                if (targetElement) {
+                    targetElement.innerHTML = `
+                        <div class="alert alert-warning">
+                            无法加载内容: ${error.message}
+                        </div>
+                    `;
+                }
+            });
+    });
 
-}); 
+    // 所有内容加载完成后渲染数学公式
+    Promise.all(loadPromises)
+        .then(() => {
+            if (typeof MathJax !== 'undefined') {
+                MathJax.typesetPromise().catch(err => console.error('MathJax渲染错误:', err));
+            }
+        });
+});
