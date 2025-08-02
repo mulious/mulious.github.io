@@ -6,7 +6,7 @@
 
 ### LaTeX文件（overleaf）
 
-[线性代数B2期末试卷源码压缩包](https://cn.overleaf.com/read/vfzsrmtjcfmd#5bfbe9)
+[线性代数B2期末试卷](https://cn.overleaf.com/read/vfzsrmtjcfmd#5bfbe9)
 
 
 
