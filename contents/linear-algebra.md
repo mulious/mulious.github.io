@@ -1,14 +1,10 @@
 
-### pdf文件
-[24线性代数B2期末试卷](https://pdfhost.io/zh-CN/v/cQgBAnrtxk_24线性代数B2期末)  
+### pdf文件及LaTeX文件合集
 
-[23线性代数B2期末试卷](https://pdfhost.io/v/6qvKU7LZk5_23线性代数B2期末)  
+[线性代数B2试卷合集](https://github.com/mulious/USTCexam/tree/main/linear-algebra-B2)
+ 
 
-[22线性代数B2期末试卷](https://pdfhost.io/zh-CN/v/nbLg8MLWxa_22线性代数B2期末)  
-
-[21线性代数B2期末试卷](https://pdfhost.io/zh-CN/v/p8pZe6b6yk_21线性代数B2期末)  
-
-### LaTeX文件
+### LaTeX文件（overleaf）
 
 [线性代数B2期末试卷源码压缩包](https://cn.overleaf.com/read/vfzsrmtjcfmd#5bfbe9)
 

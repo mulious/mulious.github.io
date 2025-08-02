@@ -1,8 +1,8 @@
-### pdf文件
-[24微分方程概论期末试卷](https://pdfhost.io/zh-CN/v/jm2QcSS3fD_24微分方程概论期末)  
+### pdf文件及LaTeX文件合集
 
-[23微分方程概论期末试卷](https://pdfhost.io/zh-CN/v/vDDJWZ9zpr_23微分方程概论期末)  
+[微分方程概论试卷合集](https://github.com/mulious/USTCexam/tree/main/differential-equations)
+ 
 
-### LaTeX文件
+### LaTeX文件（overleaf）
 
 [微分方程概论期末试卷源码压缩包](https://cn.overleaf.com/read/bgnmkhpdfkny#fbf793)
